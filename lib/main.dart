@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:provider/provider.dart';
 import 'package:rapidd_assignment/data/todo_services.dart';
 import 'package:rapidd_assignment/view_model/todo_view_model.dart';
 
@@ -26,8 +26,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => TodoViewModel())],
+    return ProviderScope(
+      // providers: [ChangeNotifierProvider(create: (_) => TodoViewModel())],
       child: MaterialApp(debugShowCheckedModeBanner: false, home: HomeScreen()),
     );
   }

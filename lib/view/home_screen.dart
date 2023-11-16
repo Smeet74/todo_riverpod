@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rapidd_assignment/view_model/todo_view_model.dart';
-import 'package:provider/provider.dart';
 
 import '../model/todo.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final textController = TextEditingController();
-
-    TodoViewModel todoViewModel = context.watch<TodoViewModel>();
-    print("length is ${todoViewModel.todoListModel.length}");
+    final todoState = ref.watch(todoViewModelProvider);
+    final isLoading = todoState.loading;
+    final todoList = todoState.todoList;
 
     itemDialog() {
       return showDialog<String>(
@@ -39,26 +39,28 @@ class HomeScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text("Simple Todo App"),),
+      appBar: AppBar(
+        title: Text("Simple Todo App"),
+      ),
       body: Container(
-        child: todoViewModel.loading
+        child: isLoading
             ? Center(
                 child: CircularProgressIndicator(),
               )
             : ListView.separated(
-                itemCount: todoViewModel.todoListModel.length,
+                itemCount: todoList.length,
                 separatorBuilder: (context, index) {
                   return Divider();
                 },
                 itemBuilder: (context, index) {
-                  TodoModel todoItem = todoViewModel.todoListModel[index];
+                  TodoModel todoItem = todoList[index];
                   print("todoItem is $todoItem");
                   return Row(
                     children: [
                       Checkbox(
                           value: todoItem.completed,
                           onChanged: (_) {
-                            todoViewModel.updateItem(
+                            ref.read(todoViewModelProvider.notifier).updateItem(
                                 index,
                                 TodoModel(
                                     name: todoItem.name.toString(),
@@ -75,11 +77,13 @@ class HomeScreen extends StatelessWidget {
                           onPressed: () async {
                             final result = await itemDialog();
                             if (result != null && result.isNotEmpty) {
-                              todoViewModel.updateItem(
-                                  index,
-                                  TodoModel(
-                                      name: textController.text,
-                                      completed: false));
+                              ref
+                                  .read(todoViewModelProvider.notifier)
+                                  .updateItem(
+                                      index,
+                                      TodoModel(
+                                          name: textController.text,
+                                          completed: todoItem.completed));
                             }
                           },
                           icon: Icon(
@@ -89,7 +93,9 @@ class HomeScreen extends StatelessWidget {
                       Spacer(),
                       IconButton(
                           onPressed: () {
-                            todoViewModel.deleteItem(index);
+                            ref
+                                .read(todoViewModelProvider.notifier)
+                                .deleteItem(index);
                           },
                           icon: Icon(
                             Icons.delete,
@@ -104,9 +110,8 @@ class HomeScreen extends StatelessWidget {
         onPressed: () async {
           final result = await itemDialog();
           if (result != null && result.isNotEmpty) {
-            todoViewModel.addItem(
+            ref.read(todoViewModelProvider.notifier).addItem(
                 TodoModel(name: textController.text, completed: false));
-            // ref.read(itemsProvider.notifier).addItem(result);
           }
         },
         child: const Icon(Icons.add),
