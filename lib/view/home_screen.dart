@@ -39,9 +39,6 @@ class HomeScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Simple Todo App"),
-      ),
       body: Container(
         child: isLoading
             ? Center(

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "290079816212",
+    "project_id": "rapidd-tech--sign-in",
+    "storage_bucket": "rapidd-tech--sign-in.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290079816212:android:a6d857bcc16fa112080501",
+        "android_client_info": {
+          "package_name": "com.example.rapidd_assignment"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXcXqjnaoACeY5jNDhQ-DfplWpeKeZK0A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
