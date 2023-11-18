@@ -57,17 +57,18 @@ class _SignInScreenState extends State<SignInScreen> {
                     _formKey.currentState!.save();
                     try {
                       User? user = await Authentication.signInWithEmailPassword(
-                           _email, _password);
+                          _email, _password);
                       if (user == null) {
                         // User does not exist, create a new user
                         user = await Authentication.createUserWithEmailPassword(
-                             _email, _password);
+                            _email, _password);
                       }
                       if (user != null) {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => BottomScreen(user: user!)));
+                                builder: (context) =>
+                                    BottomScreen(user: user!)));
                       }
                     } catch (e) {
                       // Handle the error here
@@ -76,6 +77,23 @@ class _SignInScreenState extends State<SignInScreen> {
                 },
                 child: Text('Sign In'),
               ),
+              // SizedBox(height: 25),
+              // ElevatedButton(
+              //   onPressed: () async {
+              //     try {
+              //       User? user = await Authentication.signInWithGoogle();
+              //       if (user != null) {
+              //         Navigator.pushReplacement(
+              //             context,
+              //             MaterialPageRoute(
+              //                 builder: (context) => BottomScreen(user: user)));
+              //       }
+              //     } catch (e) {
+              //       // Handle the error here
+              //     }
+              //   },
+              //   child: Text('Sign In with Google'),
+              // ),
             ],
           ),
         ),
